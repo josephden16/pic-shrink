@@ -46,7 +46,7 @@ export function printLineSection() {
 
 export function printIntro(imagesPath, outputPath) {
   console.log(`\nCLI Image Compression Tool\n\n========================================\n\nImages Path: ${imagesPath} \n${
-    outputPath && `Output Path: ${outputPath}`
+    outputPath ? `Output Path: ${outputPath}` : ""
   }\n\n========================================
     `);
 }

@@ -25,13 +25,17 @@ async function main() {
     if (!imagesPath) {
       throw new Error("Images path not passed");
     }
-    const imageFilesPath = resolve(".", imagesPath);
+    const imageFilesPath = resolve(imagesPath);
     if (!existsSync(imageFilesPath)) {
       throw new Error("Images file path is invalid");
     }
-    const outputImageDir = resolve(".", outputPath);
-    if (outputImageDir && !existsSync(outputImageDir)) {
-      throw new Error(`Output directory "${outputImageDir}" does not exist`);
+
+    let outputImageDir;
+    if (outputPath) {
+      outputImageDir = resolve(outputPath);
+      if (outputImageDir && !existsSync(outputImageDir)) {
+        throw new Error(`Output directory "${outputImageDir}" does not exist`);
+      }
     }
 
     printIntro(imagesPath, outputPath);
@@ -108,7 +112,7 @@ async function main() {
       printConclusion(imagesProcessed);
     });
   } catch (error) {
-    console.error(chalk.red(`Error: ` + error.message));
+    console.error(chalk.red(error.message));
   }
 }
 
