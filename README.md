@@ -56,7 +56,3 @@ node ./src/app.js --imagesPath images --compressionLevel 5
 - The CLI application uses the `sharp` package to perform image compression.
 - Compressed images will be prefixed with "compressed-" and stored in the specified or original directory.
 - The compression level is optional, and if not provided, default values will be used.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
