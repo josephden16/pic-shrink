@@ -17,6 +17,8 @@ jobs:
           node-version: "16"
       - name: "Install Dependencies"
         run: npm install
+      - name: "Build"
+        run: npm run build
       - name: "Create Binaries"
         run: "npm run export-releases"
       - name: Release
