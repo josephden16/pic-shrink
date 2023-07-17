@@ -13,7 +13,7 @@ A command-line interface (CLI) application for compressing images using the `sha
 3. Run the following command to install the required dependencies:
 
    ```shell
-   npm install
+   npm install -g
    ```
 
 ## Usage
@@ -21,7 +21,7 @@ A command-line interface (CLI) application for compressing images using the `sha
 Run the following command to execute the CLI application:
 
 ```shell
-node ./src/app.js --imagesPath <images-path> --outputPath <output-path> --compressionLevel <compression-level>
+image-compressor --imagesPath <images-path> --outputPath <output-path> --compressionLevel <compression-level>
 ```
 
 Replace `<images-path>` with the path to the directory containing the images you want to compress.
@@ -35,19 +35,19 @@ Replace `<compression-level>` with an optional value between 1 and 10 to specify
 Compress images located in the "images" directory and store the compressed images in the same directory:
 
 ```shell
-node ./src/app.js --imagesPath images
+image-compressor --imagesPath images
 ```
 
 Compress images located in the "images" directory and store the compressed images in the "output" directory:
 
 ```shell
-node ./src/app.js --imagesPath images --outputPath output
+image-compressor --imagesPath images --outputPath output
 ```
 
 Compress images located in the "images" directory with a custom compression level:
 
 ```shell
-node ./src/app.js --imagesPath images --compressionLevel 5
+image-compressor --imagesPath images --compressionLevel 5
 ```
 
 ## Notes
