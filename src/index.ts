@@ -4,7 +4,7 @@ import { existsSync, readdirSync } from "node:fs";
 import { resolve, parse, join } from "node:path";
 import yargs from "yargs";
 import chalk from "chalk";
-import sharp from "sharp";
+import sharp, { Metadata, Sharp } from "sharp";
 import {
   delay,
   getFileSize,
@@ -14,9 +14,9 @@ import {
   printImageCompressionStatus,
   printIntro,
   printLineSection,
-} from "./utils.js";
+} from "./utils";
 
-const { argv } = yargs(process.argv);
+const { argv } = yargs(process.argv) as any;
 
 async function main() {
   try {
@@ -30,7 +30,7 @@ async function main() {
       throw new Error("Images file path is invalid");
     }
 
-    let outputImageDir;
+    let outputImageDir: string;
     if (outputPath) {
       outputImageDir = resolve(outputPath);
       if (outputImageDir && !existsSync(outputImageDir)) {
@@ -69,9 +69,9 @@ async function main() {
     Promise.all(
       imageFiles.map(async (imageFile) => {
         await delay(500);
-        const image = sharp(imageFile);
-        const meta = await image.metadata();
-        const { format } = meta;
+        const image = sharp(imageFile) as Sharp;
+        const meta = (await image.metadata()) as Metadata;
+        const format = meta.format as "jpeg" | "webp" | "png";
         const originalFileSize = getFileSize(imageFile);
 
         const config = {
@@ -111,7 +111,7 @@ async function main() {
       await delay(1000);
       printConclusion(imagesProcessed);
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error(chalk.red(error.message));
   }
 }

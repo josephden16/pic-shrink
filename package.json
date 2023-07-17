@@ -2,12 +2,15 @@
   "name": "image-compressor",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx tsc",
+    "build:watch": "npx tsc --watch",
+    "postinstall": "npm run build"
   },
   "bin": {
-    "image-compressor": "./src/index.js"
+    "image-compressor": "./dist/index.js"
   },
   "type": "module",
   "keywords": [],
@@ -17,5 +20,10 @@
     "chalk": "^5.3.0",
     "sharp": "^0.32.3",
     "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.2",
+    "@types/yargs": "^17.0.24",
+    "typescript": "^5.1.6"
   }
 }

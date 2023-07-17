@@ -1,7 +1,7 @@
 import { statSync, lstatSync } from "node:fs";
 import { parse } from "node:path";
 
-export function getFileSize(filePath) {
+export function getFileSize(filePath: string): string {
   if (filePath) {
     const stats = statSync(filePath);
     const fileSizeInBytes = stats.size;
@@ -13,29 +13,32 @@ export function getFileSize(filePath) {
   }
 }
 
-export async function delay(ms) {
+export async function delay(ms: number) {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 }
 
-export const isFile = (fileName) => {
+export const isFile = (fileName: string) => {
   return lstatSync(fileName).isFile();
 };
 
-export const isImageFile = (filePath) => {
+export const isImageFile = (filePath: string) => {
   const fileExtension = parse(filePath).ext;
   const imageFileExtensions = [".jpg", ".jpeg", ".png", ".webp"];
   return imageFileExtensions.includes(fileExtension);
 };
 
-export function printConclusion(imagesProcessed) {
+export function printConclusion(imagesProcessed: number | string) {
   console.log(
     `========================================\n\nCompression complete!\n\nTotal Images Processed: ${imagesProcessed}\n\n========================================`
   );
 }
 
-export function printImageCompressionStatus(newFileSize, originalFileSize) {
+export function printImageCompressionStatus(
+  newFileSize: string,
+  originalFileSize: string
+) {
   console.log(`Processing: image1.jpg  [==============================] 100%\n\nOriginal Size: ${originalFileSize}MB   New Size: ${newFileSize}MB
         `);
 }
@@ -44,7 +47,7 @@ export function printLineSection() {
   console.log(`========================================`);
 }
 
-export function printIntro(imagesPath, outputPath) {
+export function printIntro(imagesPath: string, outputPath: string) {
   console.log(`\nCLI Image Compression Tool\n\n========================================\n\nImages Path: ${imagesPath} \n${
     outputPath ? `Output Path: ${outputPath}` : ""
   }\n\n========================================
