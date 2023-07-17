@@ -23,18 +23,20 @@ async function main() {
     // Validate images path
     const { imagesPath, outputPath, compressionLevel } = argv;
     if (!imagesPath) {
-      throw new Error("Images path not passed");
+      throw new Error("Error: Images path not passed");
     }
     const imageFilesPath = resolve(imagesPath);
     if (!existsSync(imageFilesPath)) {
-      throw new Error("Images file path is invalid");
+      throw new Error("Error: Images file path is invalid");
     }
 
     let outputImageDir: string;
     if (outputPath) {
       outputImageDir = resolve(outputPath);
       if (outputImageDir && !existsSync(outputImageDir)) {
-        throw new Error(`Output directory "${outputImageDir}" does not exist`);
+        throw new Error(
+          `Error: Output directory "${outputImageDir}" does not exist`
+        );
       }
     }
 
@@ -52,7 +54,7 @@ async function main() {
       .filter(isImageFile);
 
     if (imageFiles.length === 0) {
-      throw new Error(`No images found at: ${imageFilesPath}`);
+      throw new Error(`Error: No images found at: ${imageFilesPath}`);
     }
 
     await delay(1000);
