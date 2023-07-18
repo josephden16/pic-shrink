@@ -1,13 +1,12 @@
 {
   "name": "image-compressor",
-  "version": "1.0.1",
+  "version": "1.0.5",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node esbuild.config.mjs",
-    "build:watch": "node ./esbuild-watchmode.mjs",
-    "export-releases": "npx pkg package.json"
+    "build:watch": "node ./esbuild-watchmode.mjs"
   },
   "bin": {
     "image-compressor": "./dist/app.js"
@@ -31,14 +30,7 @@
   "pkg": {
     "scripts": "dist/app.js",
     "targets": [
-      "node14-win",
-      "node14-linux-arm64",
-      "node14-macos"
-    ],
-    "platforms": [
-      "win",
-      "macos",
-      "linux"
+      "node16"
     ],
     "outputPath": "releases"
   }

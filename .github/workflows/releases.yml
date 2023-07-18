@@ -1,13 +1,34 @@
-name: "release"
+name: "binary release"
 
 on:
   push:
     tags:
       - "release-*"
+      - "test-*"
 
 jobs:
-  pre-release:
-    name: "Release"
+  windows-release:
+    name: "Windows Binary Release"
+    runs-on: "windows-latest"
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: "Install Dependencies"
+        run: npm install
+      - name: "Build"
+        run: npm run build
+      - name: "Create Windows Binary"
+        run: "npx pkg -t node16 -o image-compressor-win  dist/app.js"
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: image-compressor-*
+
+  linux-release:
+    name: "Linux Binary Release"
     runs-on: "ubuntu-latest"
 
     steps:
@@ -19,9 +40,28 @@ jobs:
         run: npm install
       - name: "Build"
         run: npm run build
-      - name: "Create Binaries"
-        run: "npm run export-releases"
+      - name: "Create Linux Binary"
+        run: "npx pkg -t node16 -o image-compressor-linux  dist/app.js"
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: releases/*
+          files: image-compressor-*
+  macos-release:
+    name: "Mac Binary Release"
+    runs-on: "macos-latest"
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      - name: "Install Dependencies"
+        run: npm install
+      - name: "Build"
+        run: npm run build
+      - name: "Create Mac Binary"
+        run: "npx pkg -t node16 -o image-compressor-mac  dist/app.js"
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: image-compressor-*
