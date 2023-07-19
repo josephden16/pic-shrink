@@ -21,7 +21,12 @@ jobs:
       - name: "Build"
         run: npm run build
       - name: "Create Windows Binary"
-        run: "npx pkg -t node16 -o image-compressor-win  dist/app.js"
+        run: |
+          npx pkg -t node16 --out-path binaries dist/image-compressor.js
+          mkdir binaries/sharp
+          Copy-Item -Recurse -Path "./node_modules/sharp/vendor", "./node_modules/sharp/build" -Destination "./binaries/sharp"
+          Compress-Archive -Path .\binaries\ -DestinationPath image-compressor-win.zip
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
@@ -41,7 +46,11 @@ jobs:
       - name: "Build"
         run: npm run build
       - name: "Create Linux Binary"
-        run: "npx pkg -t node16 -o image-compressor-linux  dist/app.js"
+        run: |
+          npx pkg -t node16 --out-path binaries dist/image-compressor.js
+          mkdir binaries/sharp
+          cp -R ./node_modules/sharp/vendor ./node_modules/sharp/build ./binaries/sharp
+          zip -r image-compressor-linux.zip ./binaries
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
@@ -60,7 +69,11 @@ jobs:
       - name: "Build"
         run: npm run build
       - name: "Create Mac Binary"
-        run: "npx pkg -t node16 -o image-compressor-mac  dist/app.js"
+        run: |
+          npx pkg -t node16 --out-path binaries dist/image-compressor.js
+          mkdir binaries/sharp 
+          cp -R ./node_modules/sharp/vendor ./node_modules/sharp/build ./binaries/sharp
+          zip -r image-compressor-mac.zip ./binaries
       - name: Release
         uses: softprops/action-gh-release@v1
         with:

@@ -5,7 +5,7 @@ import { nodeExternalsPlugin } from "esbuild-node-externals";
 
 export const config = {
   entryPoints: ["./src/index.ts"],
-  outfile: "dist/app.js",
+  outfile: "dist/image-compressor.js",
   bundle: true,
   minify: true,
   platform: "node",
