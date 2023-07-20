@@ -9,7 +9,6 @@ export function getFileSize(filePath: string): string {
   if (filePath) {
     const stats = statSync(filePath);
     const fileSizeInBytes = stats.size;
-    // Convert the file size to megabytes (optional)
     const fileSizeInMegabytes = fileSizeInBytes / (1024 * 1024);
     return fileSizeInMegabytes.toFixed(2);
   } else {

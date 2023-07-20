@@ -1,28 +1,31 @@
 #!/usr/bin/env node
 
-import { existsSync, readdirSync } from "node:fs";
-import { resolve, parse, join } from "node:path";
+import { existsSync, mkdir, readdirSync } from "node:fs";
+import { resolve, join } from "node:path";
 import yargs from "yargs";
 import chalk from "chalk";
-import sharp, { Metadata, Sharp } from "sharp";
 import {
   delay,
   printConclusion,
-  printImageCompressionStatus,
   printIntro,
   printLineSection,
+  setupYargsOptions,
 } from "lib/utils";
 
-import { getFileSize, isFile, isImageFile } from "lib/file";
-
-const { argv } = yargs(process.argv) as any;
+import { isFile, isImageFile } from "lib/file";
+import { compressImage } from "lib/image";
 
 async function main() {
+  setupYargsOptions();
   try {
     // Validate images path
-    const { imagesPath, outputPath, compressionLevel } = argv;
+    const { argv } = yargs(process.argv) as any;
+    let { imagesPath, outputPath, compressionLevel, i, o, c } = argv;
+    imagesPath = imagesPath || i;
+    outputPath = outputPath || o;
+    compressionLevel = compressionLevel || c;
     if (!imagesPath) {
-      throw new Error("Error: Images path not passed");
+      throw new Error("Error: Images path not specified");
     }
     const imageFilesPath = resolve(imagesPath);
     if (!existsSync(imageFilesPath)) {
@@ -33,22 +36,24 @@ async function main() {
     if (outputPath) {
       outputImageDir = resolve(outputPath);
       if (outputImageDir && !existsSync(outputImageDir)) {
-        throw new Error(
-          `Error: Output directory "${outputImageDir}" does not exist`
-        );
+        mkdir(outputImageDir, (error) => {
+          if (error) {
+            throw new Error(
+              `Error: Failed to create new directory at ${outputImageDir}`
+            );
+          }
+        });
       }
     }
 
-    printIntro(imagesPath, outputPath);
+    printIntro(resolve(imagesPath), outputPath ? resolve(outputPath) : "");
 
     // Read images in the directory
     await delay(700);
     console.log("Scanning directory for images...");
 
     const imageFiles = readdirSync(imageFilesPath)
-      .map((fileName) => {
-        return join(imageFilesPath, fileName);
-      })
+      .map((fileName) => join(imageFilesPath, fileName))
       .filter(isFile)
       .filter(isImageFile);
 
@@ -70,42 +75,7 @@ async function main() {
     Promise.all(
       imageFiles.map(async (imageFile) => {
         await delay(500);
-        const image = sharp(imageFile) as Sharp;
-        const meta = (await image.metadata()) as Metadata;
-        const format = meta.format as "jpeg" | "webp" | "png";
-        const originalFileSize = getFileSize(imageFile);
-
-        const config = {
-          jpeg: { quality: 70 },
-          webp: { quality: 70 },
-          png: { compressionLevel: 7 },
-        };
-
-        let quality;
-        if (compressionLevel) {
-          // compression level for the images usually between 1 to 10
-          quality = parseInt(compressionLevel);
-          if (quality < 1) quality = 1;
-          if (quality > 10) quality = 10;
-          config.jpeg.quality = quality * 10;
-          config.webp.quality = quality * 10;
-          config.png.compressionLevel = quality;
-        }
-
-        const { base, dir } = parse(imageFile);
-        if (!outputPath) {
-          // Store the compressed images where the original images are located
-          const outputImagePath = `${dir}/compressed-${base}`;
-          await image[format](config[format]).toFile(outputImagePath);
-          const newFileSize = getFileSize(outputImagePath);
-          printImageCompressionStatus(newFileSize, originalFileSize);
-        } else {
-          // Store the compressed images at the specified output directory
-          const outputImagePath = join(outputImageDir, base);
-          await image[format](config[format]).toFile(outputImagePath);
-          const newFileSize = getFileSize(outputImagePath);
-          printImageCompressionStatus(newFileSize, originalFileSize);
-        }
+        await compressImage(imageFile, compressionLevel, outputImageDir);
         imagesProcessed += 1;
       })
     ).then(async () => {
