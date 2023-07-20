@@ -36,7 +36,7 @@ async function main() {
     if (outputPath) {
       outputImageDir = resolve(outputPath);
       if (outputImageDir && !existsSync(outputImageDir)) {
-        mkdir(outputImageDir, (error) => {
+        mkdir(outputImageDir, { recursive: true }, (error) => {
           if (error) {
             throw new Error(
               `Error: Failed to create new directory at ${outputImageDir}`
