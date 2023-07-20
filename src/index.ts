@@ -7,14 +7,13 @@ import chalk from "chalk";
 import sharp, { Metadata, Sharp } from "sharp";
 import {
   delay,
-  getFileSize,
-  isFile,
-  isImageFile,
   printConclusion,
   printImageCompressionStatus,
   printIntro,
   printLineSection,
-} from "./utils";
+} from "lib/utils";
+
+import { getFileSize, isFile, isImageFile } from "lib/file";
 
 const { argv } = yargs(process.argv) as any;
 

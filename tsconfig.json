@@ -4,6 +4,7 @@
     "module": "ES2015",
     "moduleResolution": "Node",
     "rootDir": "./src/",
+    "baseUrl": "./src/",
     "outDir": "./dist",
     "esModuleInterop": true,
     "strict": true,
