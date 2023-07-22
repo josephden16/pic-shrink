@@ -1,6 +1,6 @@
 {
   "name": "pic-shrink",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "pic-shrink is an easy-to-use CLI tool for compressing images in JPG, PNG, and WEBP.",
   "main": "dist/pic-shrink.js",
   "scripts": {
