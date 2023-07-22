@@ -1,6 +1,6 @@
-# image-compressor
+# pic-shrink
 
-image-compressor is an easy-to-use CLI tool for compressing images in JPG, PNG, and WEBP.
+pic-shrink is an easy-to-use CLI tool for compressing images in JPG, PNG, and WEBP.
 
 ## Prerequisites
 
@@ -21,13 +21,13 @@ image-compressor is an easy-to-use CLI tool for compressing images in JPG, PNG, 
 To compress a single image file, you can use the following command:
 
 ```shell
-image-compressor <image-file-path>
+pic-shrink <image-file-path>
 ```
 
 To compress multiple image files run the following command:
 
 ```shell
-image-compressor -i <images-path> -o <output-path> -c <compression-level>
+pic-shrink -i <images-path> -o <output-path> -c <compression-level>
 ```
 
 Replace `<images-path>` with the path to the directory containing the images you want to compress.
@@ -41,31 +41,31 @@ Replace `<compression-level>` with an optional value between 1 and 10 to specify
 Compress a single image file
 
 ```shell
-image-compressor image.jpg
+pic-shrink image.jpg
 ```
 
 Compress a single image file with a custom compression level
 
 ```shell
-image-compressor image.jpg -c 4
+pic-shrink image.jpg -c 4
 ```
 
 Compress images located in the "images" directory and store the compressed images in the same directory:
 
 ```shell
-image-compressor -i images
+pic-shrink -i images
 ```
 
 Compress images located in the "images" directory and store the compressed images in the "output" directory. If the "output" directory does not exist it will be created automatically:
 
 ```shell
-image-compressor -i images -o output
+pic-shrink -i images -o output
 ```
 
 Compress images located in the "images" directory with a custom compression level:
 
 ```shell
-image-compressor -i images -c 5
+pic-shrink -i images -c 5
 ```
 
 ## Notes

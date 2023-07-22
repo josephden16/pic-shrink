@@ -22,15 +22,15 @@ jobs:
         run: npm run build
       - name: "Create Windows Binary"
         run: |
-          npx pkg -t node16 --out-path binaries dist/image-compressor.js
+          npx pkg -t node16 --out-path binaries dist/pic-shrink.js
           mkdir binaries/sharp
           Copy-Item -Recurse -Path "./node_modules/sharp/vendor", "./node_modules/sharp/build" -Destination "./binaries/sharp"
-          Compress-Archive -Path .\binaries\ -DestinationPath image-compressor-win.zip
+          Compress-Archive -Path .\binaries\ -DestinationPath pic-shrink-win.zip
 
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: image-compressor-*
+          files: pic-shrink-*
 
   linux-release:
     name: "Linux Binary Release"
@@ -47,16 +47,16 @@ jobs:
         run: npm run build
       - name: "Create Linux Binary"
         run: |
-          npx pkg -t node16 --out-path binaries dist/image-compressor.js
+          npx pkg -t node16 --out-path binaries dist/pic-shrink.js
           mkdir binaries/sharp
           cp -R ./node_modules/sharp/vendor ./node_modules/sharp/build ./binaries/sharp
-          zip -r image-compressor-linux.zip ./binaries
+          zip -r pic-shrink-linux.zip ./binaries
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: image-compressor-*
+          files: pic-shrink-*
   macos-release:
-    name: "Mac Binary Release"
+    name: "macOS Binary Release"
     runs-on: "macos-latest"
 
     steps:
@@ -70,11 +70,11 @@ jobs:
         run: npm run build
       - name: "Create Mac Binary"
         run: |
-          npx pkg -t node16 --out-path binaries dist/image-compressor.js
+          npx pkg -t node16 --out-path binaries dist/pic-shrink.js
           mkdir binaries/sharp 
           cp -R ./node_modules/sharp/vendor ./node_modules/sharp/build ./binaries/sharp
-          zip -r image-compressor-mac.zip ./binaries
+          zip -r pic-shrink-mac.zip ./binaries
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: image-compressor-*
+          files: pic-shrink-*

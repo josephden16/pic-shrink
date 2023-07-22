@@ -70,7 +70,7 @@ export function printIntro(
 export function setupYargsOptions() {
   yargs
     .usage(
-      "image-compressor is an easy-to-use CLI tool for compressing images in JPG, PNG, and WEBP.\n\nUsage: image-compressor -i <images-path> -o <output-path> -c <compression-level>"
+      "pic-shrink is an easy-to-use CLI tool for compressing images in JPG, PNG, and WEBP.\n\nUsage: pic-shrink -i <images-path> -o <output-path> -c <compression-level>"
     )
     .option("i", {
       alias: "imagesPath",
@@ -94,21 +94,21 @@ export function setupYargsOptions() {
       demandOption: false,
     })
     .example([
-      ["image-compressor image.jpg", "Compress a single image file"],
+      ["pic-shrink image.jpg", "Compress a single image file"],
       [
-        "image-compressor image.jpg -c 4",
+        "pic-shrink image.jpg -c 4",
         "Compress a single image file with a custom compression level",
       ],
       [
-        "image-compressor -i ./images",
+        "pic-shrink -i ./images",
         "Compress images in the `images` directory and store the compressed images in the same directory",
       ],
       [
-        "image-compressor -i ./images -o ./compressed",
+        "pic-shrink -i ./images -o ./compressed",
         "Compress images in the `images` directory and store them in the `compressed` folder",
       ],
       [
-        "image-compressor -i ./images -c 8",
+        "pic-shrink -i ./images -c 8",
         "Compress images in the `images` directory using a custom compression level of `8`",
       ],
     ])

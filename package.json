@@ -1,15 +1,15 @@
 {
-  "name": "image-compressor",
-  "version": "1.0.7",
+  "name": "pic-shrink",
+  "version": "1.0.8",
   "description": "",
-  "main": "dist/image-compressor",
+  "main": "dist/pic-shrink",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node ./config/esbuild.config.js",
     "build:watch": "node ./config/esbuild-watchmode.js"
   },
   "bin": {
-    "image-compressor": "./dist/image-compressor.js"
+    "pic-shrink": "./dist/pic-shrink.js"
   },
   "keywords": [],
   "author": "",
@@ -28,7 +28,7 @@
     "typescript": "^5.1.6"
   },
   "pkg": {
-    "scripts": "dist/image-compressor.js",
+    "scripts": "dist/pic-shrink.js",
     "targets": [
       "node16"
     ],
