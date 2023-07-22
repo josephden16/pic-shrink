@@ -1,9 +1,9 @@
 import { statSync, lstatSync } from "node:fs";
-import { parse } from "node:path";
+import { parse, relative } from "node:path";
 
-export const isFile = (fileName: string) => {
+export function isFile(fileName: string) {
   return lstatSync(fileName).isFile();
-};
+}
 
 export function getFileSize(filePath: string): string {
   if (filePath) {
@@ -16,8 +16,20 @@ export function getFileSize(filePath: string): string {
   }
 }
 
-export const isImageFile = (filePath: string) => {
+export function isImageFile(filePath: string) {
   const fileExtension = parse(filePath).ext;
   const imageFileExtensions = [".jpg", ".jpeg", ".png", ".webp"];
   return imageFileExtensions.includes(fileExtension);
-};
+}
+
+export function getRelativePath(absolutePath: string) {
+  const baseDir = process.cwd();
+  const relativePath = relative(baseDir, absolutePath);
+  return relativePath;
+}
+
+export function getOutputFileName(imageFile: string) {
+  const { name, ext } = parse(imageFile);
+  const outputImagePath = `${name}_compressed${ext}`;
+  return outputImagePath;
+}

@@ -1,7 +1,15 @@
-import { join, parse } from "path";
+import { join, parse, resolve } from "path";
 import sharp, { Sharp, Metadata } from "sharp";
-import { getFileSize } from "./file";
-import { printImageCompressionStatus } from "./utils";
+import { getFileSize, getOutputFileName, isFile, isImageFile } from "./file";
+import {
+  delay,
+  printConclusion,
+  printImageCompressionStatus,
+  printIntro,
+  printLineSection,
+  printSingleImageCompressionConclusion,
+} from "./utils";
+import { existsSync, mkdir, readdirSync } from "fs";
 
 export async function compressImage(
   imageFile: string,
@@ -30,11 +38,12 @@ export async function compressImage(
     config.png.compressionLevel = quality;
   }
 
-  const { base, dir } = parse(imageFile);
+  const { dir, base } = parse(imageFile);
   if (!outputImageDir) {
     // Store the compressed images where the original images are located
-    const outputImagePath = `${dir}/compressed-${base}`;
-    await image[format](config[format]).toFile(outputImagePath);
+    const outputImageFilename = getOutputFileName(imageFile);
+    const outputImagePath = `${dir}/${outputImageFilename}`;
+    await image[format](config[format]).toFile(`${dir}/${outputImageFilename}`);
     const newFileSize = getFileSize(outputImagePath);
     printImageCompressionStatus(base, newFileSize, originalFileSize);
   } else {
@@ -44,4 +53,85 @@ export async function compressImage(
     const newFileSize = getFileSize(outputImagePath);
     printImageCompressionStatus(base, newFileSize, originalFileSize);
   }
+}
+
+export async function handleSingleImageFileCompression(
+  imagePath: string,
+  compressionLevel: string
+) {
+  const imageFilePath = resolve(imagePath);
+  const isImageValid = isImageFile(imageFilePath);
+  if (isImageValid) {
+    printIntro(imageFilePath, "", true);
+    await compressImage(imageFilePath, compressionLevel, "");
+    printSingleImageCompressionConclusion(getOutputFileName(imageFilePath));
+    return;
+  } else {
+    throw new Error("Error: Invalid image passed");
+  }
+}
+
+export async function handleMultipleImageCompression(
+  imagesPath: any,
+  outputPath: any,
+  compressionLevel: any
+) {
+  if (!imagesPath) {
+    throw new Error("Error: Images path not specified");
+  }
+
+  const imageFilesPath = resolve(imagesPath);
+  if (!existsSync(imageFilesPath)) {
+    throw new Error("Error: Images file path is invalid");
+  }
+
+  let outputImageDir: string;
+  if (outputPath) {
+    outputImageDir = resolve(outputPath);
+    if (outputImageDir && !existsSync(outputImageDir)) {
+      mkdir(outputImageDir, { recursive: true }, (error) => {
+        if (error) {
+          throw new Error(
+            `Error: Failed to create new directory at ${outputImageDir}`
+          );
+        }
+      });
+    }
+  }
+
+  printIntro(resolve(imagesPath), outputPath ? resolve(outputPath) : "");
+
+  // Read images in the directory
+  await delay(700);
+  console.log("Scanning directory for images...");
+
+  const imageFiles = readdirSync(imageFilesPath)
+    .map((fileName) => join(imageFilesPath, fileName))
+    .filter(isFile)
+    .filter(isImageFile);
+
+  if (imageFiles.length === 0) {
+    throw new Error(`Error: No images found at: ${imageFilesPath}`);
+  }
+
+  await delay(1000);
+  console.log(`Found ${imageFiles.length} images.\n`);
+
+  printLineSection();
+
+  await delay(1000);
+  console.log("\nCompressing images...\n");
+
+  // Compress the images and store them in the appropriate location
+  await delay(1600);
+  let imagesProcessed = 0;
+  Promise.all(
+    imageFiles.map(async (imageFile) => {
+      await compressImage(imageFile, compressionLevel, outputImageDir);
+      imagesProcessed += 1;
+    })
+  ).then(async () => {
+    await delay(1000);
+    printConclusion(imagesProcessed);
+  });
 }
