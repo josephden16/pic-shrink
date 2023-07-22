@@ -1,8 +1,8 @@
 {
   "name": "pic-shrink",
-  "version": "1.0.8",
-  "description": "",
-  "main": "dist/pic-shrink",
+  "version": "1.0.9",
+  "description": "pic-shrink is an easy-to-use CLI tool for compressing images in JPG, PNG, and WEBP.",
+  "main": "dist/pic-shrink.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "node ./config/esbuild.config.js",
@@ -11,9 +11,19 @@
   "bin": {
     "pic-shrink": "./dist/pic-shrink.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "image",
+    "compression",
+    "cli",
+    "shrink",
+    "sharp"
+  ],
+  "author": "Denedo Oghenetega",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/josephden16/pic-shrink.git"
+  },
   "dependencies": {
     "chalk": "^4.1.2",
     "sharp": "^0.32.3",
@@ -33,5 +43,9 @@
       "node16"
     ],
     "outputPath": "releases"
-  }
+  },
+  "engines": {
+    "node": ">=14.15.0"
+  },
+  "preferGlobal": true
 }

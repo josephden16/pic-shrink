@@ -8,13 +8,9 @@ pic-shrink is an easy-to-use CLI tool for compressing images in JPG, PNG, and WE
 
 ## Installation
 
-1. Clone the repository or download the source code.
-2. Open a terminal or command prompt and navigate to the project directory.
-3. Run the following command to install the required dependencies:
-
-   ```shell
-   npm install -g
-   ```
+```shell
+npm install -g pic-shrink
+```
 
 ## Usage
 
