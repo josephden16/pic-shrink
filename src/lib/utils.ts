@@ -70,7 +70,7 @@ export function printIntro(
 export function setupYargsOptions() {
   yargs
     .usage(
-      "pic-shrink is an easy-to-use CLI tool for compressing images in JPG, PNG, and WEBP.\n\nUsage: pic-shrink -i <images-path> -o <output-path> -c <compression-level>"
+      "pic-shrink is an easy-to-use CLI tool for compressing images in JPG, PNG, and WEBP.\n\nUsage: pic-shrink <image-file-path>"
     )
     .option("i", {
       alias: "imagesPath",

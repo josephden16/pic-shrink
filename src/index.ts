@@ -6,16 +6,21 @@ import {
   handleSingleImageFileCompression,
   handleMultipleImageCompression,
 } from "lib/image";
+import yargs from "yargs";
 
 async function main() {
   try {
+    if (process.argv.length < 3) {
+      yargs.showHelp();
+      return;
+    }
     const { compressionLevel, imagesPath, outputPath } = getCommandlineInputs();
     // Handle compression of a single image
     const image = process.argv[2];
     const shouldCompressSingleImage = image && !imagesPath;
     if (shouldCompressSingleImage) {
       await handleSingleImageFileCompression(image, compressionLevel);
-    } else {
+    } else if (imagesPath) {
       // Handle compression of multiple images
       await handleMultipleImageCompression(
         imagesPath,
