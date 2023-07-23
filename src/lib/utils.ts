@@ -59,7 +59,7 @@ export function printIntro(
   outputPath: string,
   compressingSingleImage: boolean = false
 ) {
-  console.log(`\nCLI Image Compression Tool\n\n========================================\n\nImage${
+  console.log(`\n========================================\n\nImage${
     compressingSingleImage ? "" : "s"
   } Path: ${getRelativePath(imagesPath)}${
     outputPath ? `\nOutput Path: ${getRelativePath(outputPath)}` : ""
