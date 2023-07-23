@@ -63,7 +63,9 @@ export async function handleSingleImageFileCompression(
   const isImageValid = isImageFile(imageFilePath);
   if (isImageValid) {
     printIntro(imageFilePath, "", true);
+    await delay(1000);
     await compressImage(imageFilePath, compressionLevel, "");
+    await delay(1000);
     printSingleImageCompressionConclusion(getOutputFileName(imageFilePath));
     return;
   } else {
