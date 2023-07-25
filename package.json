@@ -1,10 +1,11 @@
 {
   "name": "pic-shrink",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "pic-shrink is an easy-to-use CLI tool for compressing images in JPG, PNG, and WEBP.",
   "main": "dist/pic-shrink.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "build": "node ./config/esbuild.config.js",
     "build:watch": "node ./config/esbuild-watchmode.js"
   },
@@ -30,11 +31,14 @@
     "yargs": "^17.7.2"
   },
   "devDependencies": {
+    "@types/jest": "^29.5.3",
     "@types/node": "^20.4.2",
     "@types/yargs": "^17.0.24",
     "esbuild": "^0.18.13",
     "esbuild-node-externals": "^1.8.0",
+    "jest": "^29.6.1",
     "pkg": "^5.8.1",
+    "ts-jest": "^29.1.1",
     "typescript": "^5.1.6"
   },
   "pkg": {

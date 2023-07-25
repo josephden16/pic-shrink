@@ -11,8 +11,8 @@ import yargs from "yargs";
 async function main() {
   try {
     if (process.argv.length < 3) {
-      yargs.showHelp();
-      return;
+      const usageInfo = await yargs.getHelp();
+      throw new Error(usageInfo);
     }
     const { compressionLevel, imagesPath, outputPath } = getCommandlineInputs();
     // Handle compression of a single image
