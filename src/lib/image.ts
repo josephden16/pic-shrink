@@ -62,11 +62,14 @@ export async function handleSingleImageFileCompression(
   const imageFilePath = resolve(imagePath);
   const isImageValid = isImageFile(imageFilePath);
   if (isImageValid) {
+    console.time("Time Taken");
     printIntro(imageFilePath, "", true);
     await delay(1000);
     await compressImage(imageFilePath, compressionLevel, "");
     await delay(1000);
     printSingleImageCompressionConclusion(getOutputFileName(imageFilePath));
+    console.timeEnd("Time Taken");
+    console.log("\n");
     return;
   } else {
     throw new Error("Error: Invalid image passed");
@@ -101,6 +104,7 @@ export async function handleMultipleImageCompression(
     }
   }
 
+  console.time("Time Taken")
   printIntro(resolve(imagesPath), outputPath ? resolve(outputPath) : "");
 
   // Read images in the directory
@@ -135,5 +139,7 @@ export async function handleMultipleImageCompression(
   ).then(async () => {
     await delay(1000);
     printConclusion(imagesProcessed);
+    console.timeEnd("Time Taken");
+    console.log("\n");
   });
 }
